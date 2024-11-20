@@ -8,14 +8,11 @@ class StudentManagerApp:
         self.root.geometry("600x600")
         self.root.configure(bg='lightblue')
 
-        # Title
         self.title_label = tk.Label(root, text="Student Manager", font=("Arial", 36, "bold"), bg='lightblue')
         self.title_label.pack(pady=20)
 
-        # Load student data
         self.students = self.load_student_data()
 
-        # Buttons for viewing records
         self.option_frame = tk.Frame(root, bg='lightblue')
         self.option_frame.pack(pady=10)
 
@@ -28,7 +25,6 @@ class StudentManagerApp:
         self.lowest_score_button = tk.Button(self.option_frame, text="Show Lowest Score", bg='grey', fg='white', width=30, command=self.show_lowest_score)
         self.lowest_score_button.grid(row=0, column=2, padx=10, pady=10)
 
-        # Individual student record section
         self.individual_record_label = tk.Label(root, text="View Individual Student Record", bg='lightblue')
         self.individual_record_label.pack(pady=10)
 

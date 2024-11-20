@@ -5,13 +5,12 @@ class ArithmeticQuizApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Arithmetic Quiz")
-        self.root.configure(bg="#f0f0f0")  # Set background color
+        self.root.configure(bg="#f0f0f0")
         self.score = 0
         self.question_count = 0
         self.difficulty = None
         self.current_problem = None
 
-        # Menu Frame
         self.menu_frame = tk.Frame(self.root, bg="#f0f0f0")
         self.menu_frame.pack(pady=40)
 
