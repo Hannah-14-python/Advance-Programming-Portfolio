@@ -10,6 +10,7 @@ class ArithmeticQuizApp:
         self.question_count = 0
         self.difficulty = None
         self.current_problem = None
+        self.attempts = 0
 
         self.menu_frame = tk.Frame(self.root, bg="#f0f0f0")
         self.menu_frame.pack(pady=40)
@@ -32,6 +33,7 @@ class ArithmeticQuizApp:
         self.difficulty = difficulty
         self.score = 0
         self.question_count = 0
+        self.attempts = 0
         self.menu_frame.pack_forget()
         self.ask_question()
 
@@ -83,17 +85,19 @@ class ArithmeticQuizApp:
             correct_answer = eval(f"{num1} {operation} {num2}")
 
             if user_answer == correct_answer:
-                self.score += 10
+                self.score += 10 if self.attempts == 0 else 5
+                self.is_correct("Correct! Points awarded.")
                 self.question_count += 1
-                self.is_correct("Correct! 10 points awarded.")
             else:
-                self.is_correct("Incorrect! No points awarded.")
-                self.question_count += 1
+                if self.attempts == 0:
+                    self.attempts += 1
+                    self.is_correct("Incorrect! Try again.")
+                else:
+                    self.is_correct("Incorrect! No points awarded.")
+                    self.question_count += 1
+            self.ask_question()
         else:
             self.is_correct("Please enter a valid number.")
-            return
-
-        self.ask_question()
 
     def is_correct(self, message):
         self.question_frame.pack_forget()
@@ -102,30 +106,22 @@ class ArithmeticQuizApp:
 
     def display_results(self):
         self.question_frame.pack_forget()
-        self.result_frame = tk.Frame(self.root, bg="#f0f 0f0")
+        self.result_frame = tk.Frame (self.root, bg="#f0f0f0")
         self.result_frame.pack(pady=20)
 
-        result_text = f"Your final score: {self.score} / 100\n"
-        if self.score >= 90:
-            result_text += "Grade: A+"
-        elif self.score >= 80:
-            result_text += "Grade: A"
-        elif self.score >= 70:
-            result_text += "Grade: B"
-        elif self.score >= 60:
-            result_text += "Grade: C"
-        else:
-            result_text += "Grade: F"
-
+        result_text = f"Quiz Finished! Your score: {self.score}"
         self.result_label = tk.Label(self.result_frame, text=result_text, font=("Helvetica", 18), bg="#f0f0f0")
         self.result_label.pack(pady=10)
 
-        self.play_again_button = tk.Button(self.result_frame, text="Play Again", command=self.reset_quiz, width=20, bg="#d1e7dd", font=("Helvetica", 14))
+        self.play_again_button = tk.Button(self.result_frame, text="Play Again", command=self.reset_quiz, bg="#d1e7dd", font=("Helvetica", 14))
         self.play_again_button.pack(pady=10)
 
     def reset_quiz(self):
         self.result_frame.pack_forget()
         self.menu_frame.pack(pady=40)
+
+        self.score = 0
+        self.attempts = 0
 
 if __name__ == "__main__":
     root = tk.Tk()
